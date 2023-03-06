@@ -59,10 +59,15 @@ class Dino(Sprite):
         self.step_index += 1
 
     def duck(self):
-        self.image = DUCKING[0]
-        if self.dino_duck:
-            self.dino_rect.y = self.Y_POS + 40
-            self.dino_duck = False
+        if self.step_index <= 5:
+            self.image = DUCKING[0]
+        else:
+            self.image = DUCKING[1]
+        
+        self.dino_rect.x = self.X_POS
+        self.dino_rect.y = self.Y_POS + 40
+        self.step_index += 1
+        self.dino_duck = False
 
     def jump (self):
         self.image = JUMPING
