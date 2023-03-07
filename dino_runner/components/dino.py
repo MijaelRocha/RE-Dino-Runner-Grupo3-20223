@@ -7,7 +7,6 @@ class Dino(Sprite):
     X_POS = 50
     Y_POS = 315
     JUMP_VEL = 8
-    DUCK_VEL = 2
 
     def __init__(self):
         self.image = RUNNING[0]
@@ -19,7 +18,6 @@ class Dino(Sprite):
         self.dino_duck = False
         self.dino_jump = False
         self.jump_vel = self.JUMP_VEL
-        self.duck_vel = self.DUCK_VEL
 
     def update(self, user_input):
         if self.dino_run:
@@ -29,11 +27,11 @@ class Dino(Sprite):
         elif self.dino_duck:    
             self.duck()
 
-        if user_input[pygame.K_UP] and not self.dino_jump:
+        if user_input[pygame.K_UP] and not self.dino_jump and not self.dino_duck:
             self.dino_run = False
             self.dino_duck = False
             self.dino_jump = True
-        elif user_input[pygame.K_DOWN] and not self.dino_duck:
+        elif user_input[pygame.K_DOWN] and not self.dino_duck and not self.dino_jump:
             self.dino_run = False
             self.dino_duck = True
             self.dino_jump = False
