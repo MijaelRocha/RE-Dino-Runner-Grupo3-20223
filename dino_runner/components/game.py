@@ -89,7 +89,7 @@ class Game:
             self.screen.blit(score_text, (SCREEN_WIDTH / 2 - score_rect.width / 2, SCREEN_HEIGHT / 2 + score_rect.height + 20))
             self.screen.blit(death_text, (SCREEN_WIDTH / 2 - death_rect.width / 2, SCREEN_HEIGHT / 2 + death_rect.height + 40))
 
-        self.screen.blit(RUNNING[0], (80, 310))
+        self.screen.blit(RUNNING[0], (510, 180))
 
     def handle_key_events_on_menu(self):
         for event in pygame.event.get():
