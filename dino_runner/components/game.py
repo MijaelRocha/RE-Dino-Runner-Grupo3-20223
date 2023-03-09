@@ -24,8 +24,11 @@ class Game:
         self.death_count = 0
         self.player = Dino()
         self.obstacle_manager = ObstacleManager()
-        self.player_heart_manager = PlayerHeartManager()
         self.power_up_manager = PowerUpManager()
+        self.player_heart_manager = PlayerHeartManager()
+        
+        pygame.mixer.music.load("sounds/Music.mp3")
+        pygame.mixer.music.play()
 
     def run(self):
         self.run = 0
@@ -137,5 +140,4 @@ class Game:
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                self.points = 0
                 self.run()

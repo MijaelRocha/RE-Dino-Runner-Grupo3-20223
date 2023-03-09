@@ -27,6 +27,7 @@ class Dino(Sprite):
         self.has_lives = False
         self.lives_transition_time = 0
         self.setup_state_boolean()
+        self.sound = pygame.mixer.Sound("sounds/SaltoEfect.mp3") #sonido
 
     def setup_state_boolean(self):
         self.has_powerup = False
@@ -43,6 +44,8 @@ class Dino(Sprite):
             self.duck()
         
         if user_input[pygame.K_UP] and not self.dino_jump:
+            self.sound.play()
+            self.sound.set_volume(0.5)
             self.dino_run = False
             self.dino_duck = False
             self.dino_jump = True
