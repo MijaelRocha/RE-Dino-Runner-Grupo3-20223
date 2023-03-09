@@ -7,7 +7,7 @@ FONT_STYLE = 'freesansbold.ttf'
 black_color = (0, 0, 0)
 
 def get_score_element(points):
-    font = pygame.font.Font(FONT_STYLE, 18)
+    font = pygame.font.Font(FONT_STYLE, 16)
     text = font.render('Points: '+ str(points), True, black_color )
     text_rect = text.get_rect()
     text_rect.center = (900, 50)
