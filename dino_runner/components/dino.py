@@ -29,6 +29,7 @@ class Dino(Sprite):
         self.setup_state_boolean()
         self.sound = pygame.mixer.Sound("sounds/SaltoEfect.mp3") #sonido
 
+    #inicializa las variables del estado
     def setup_state_boolean(self):
         self.has_powerup = False
         self.shield = False
@@ -90,9 +91,8 @@ class Dino(Sprite):
         if self.shield:
             time_to_show = round( (self.shield_time_up - pygame.time.get_ticks()) / 1000, 2 )
             if time_to_show >= 0:
-                # if self.show_text:
                 fond = pygame.font.Font('freesansbold.ttf', 18)
-                text = fond.render(f'Shield enable for {time_to_show}', True, (0, 0, 0))
+                text = fond.render(f'Shield:  {time_to_show}', True, (0, 0, 0))
                 textRect = text.get_rect()
                 textRect.center = (550, 40)
                 screen.blit(text, textRect)

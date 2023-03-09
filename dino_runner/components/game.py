@@ -1,3 +1,4 @@
+import random
 import pygame
 from dino_runner.components.dino import Dino
 from dino_runner.components.obstacles.obstaclemanager import ObstacleManager
@@ -26,12 +27,12 @@ class Game:
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
         self.player_heart_manager = PlayerHeartManager()
-        
+
         pygame.mixer.music.load("sounds/Music.mp3")
         pygame.mixer.music.play()
 
     def run(self):
-        self.run = 0
+        self.points = 0
         self.create_components()
         self.playing = True
         while self.playing:
@@ -42,7 +43,7 @@ class Game:
     def create_components(self):
         self.power_up_manager.reset_power_ups(self.points)
         # self.obstacle_manager.reset_obstacles()
-        
+
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -78,7 +79,7 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
-        
+
     def draw_cloud(self): #NUBE
         image_height = CLOUD.get_height()
         self.screen.blit(CLOUD, (self.x_pos_cloud, self.y_pos_cloud))
@@ -87,7 +88,7 @@ class Game:
             self.screen.blit(CLOUD, (image_height + self.x_pos_cloud, self.y_pos_cloud))
             self.x_pos_cloud = 1000
         self.x_pos_cloud -= self.game_speed
-    
+
     def score(self):
         self.points += 1
         if self.points % 100 == 0:
@@ -95,11 +96,11 @@ class Game:
         text, text_rect = text_utils.get_score_element(self.points)
         self.player.check_invincibility(self.screen)
         self.screen.blit(text, text_rect)
-        
-    
+
+
     def show_menu(self, death_count):
         self.running = True
-        
+
         self.screen.fill((255, 255, 255))
         self.print_menu_elements(self.death_count)
         pygame.display.update()
@@ -107,14 +108,14 @@ class Game:
 
     def print_menu_elements(self, death_count = 0):
         half_screen_height = SCREEN_HEIGHT // 2
-        
+
         if death_count == 0:
             text, text_rect = text_utils.get_centered_message('Press any Key to start')
             self.screen.blit(text, text_rect)
-            
+
             text_rect_dino = text_utils.get_dino_elemen()
             self.screen.blit(GAME_START  , text_rect_dino)
-            
+
         elif death_count > 0:
             text, text_rect = text_utils.get_centered_message("Press any Key to Restart")
             score, score_rect = text_utils.get_centered_message("Your score was: " + str(self.points), height = half_screen_height + 50)
@@ -127,7 +128,7 @@ class Game:
 
             text_rect_dino = text_utils.get_dino_elemen()
             self.screen.blit(GAME_DEAD  , text_rect_dino)
-            
+
             self.screen.blit(text, text_rect)
             self.screen.blit(score, score_rect)
 

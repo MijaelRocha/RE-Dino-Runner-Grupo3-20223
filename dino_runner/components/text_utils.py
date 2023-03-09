@@ -39,5 +39,4 @@ def get_game_over():
     text = font.render("Dino : " ,True, black_color)
     text_rect = text.get_rect()
     text_rect.center= [380, 130]
-
     return  text_rect 
