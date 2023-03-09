@@ -24,9 +24,11 @@ class Dino(Sprite):
         self.dino_duck = False
         self.dino_jump = False
         self.jump_vel = self.JUMP_VEL
-        self.setup_state_booleans()
+        self.has_lives = False
+        self.lives_transition_time = 0
+        self.setup_state_boolean()
 
-    def setup_state_booleans(self):
+    def setup_state_boolean(self):
         self.has_powerup = False
         self.shield = False
         self.show_text = False
@@ -56,11 +58,10 @@ class Dino(Sprite):
         if self.step_index >= 10:
             self.step_index = 0
 
-    def draw(self, screen):
-        screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
 
     def run(self):
         self.image = self.run_img[self.type][self.step_index // 5]
+        self.dino_rect = self.image.get_rect()
         self.dino_rect.x = self.X_POS
         self.dino_rect.y = self.Y_POS
         self.step_index += 1
@@ -75,27 +76,36 @@ class Dino(Sprite):
     def jump(self):
         self.image = self.jump_img[self.type]
         if self.dino_jump:
-            self.dino_rect.y -= self.jump_vel * 4 # Salto
-            self.jump_vel -= 0.8 # Subiendo y cuando es negativo baja
-        if self.jump_vel < -self.JUMP_VEL: # CUando llega a JUMP_VEL en negativo se termina el salto
+            self.dino_rect.y -= self.jump_vel * 4
+            self.jump_vel -= 0.8
+        if self.jump_vel < -self.JUMP_VEL:
             self.dino_rect.y = self.Y_POS
             self.dino_jump = False
             self.jump_vel = self.JUMP_VEL
             
-    def check_invincibility(self,screen):
+    def check_invincibility(self, screen):
         if self.shield:
             time_to_show = round( (self.shield_time_up - pygame.time.get_ticks()) / 1000, 2 )
             if time_to_show >= 0:
-                if self.show_text:
-                    fond = pygame.font.Font('freesansbold.ttf', 18)
-                    text = fond.render(f'shield enable for {time_to_show}', True, (0, 0, 0))
-                    textRect = text.get_rect()
-                    textRect.center = (500, 40)
-                    screen.blit(text, textRect)
+                # if self.show_text:
+                fond = pygame.font.Font('freesansbold.ttf', 18)
+                text = fond.render(f'Shield enable for {time_to_show}', True, (0, 0, 0))
+                textRect = text.get_rect()
+                textRect.center = (550, 40)
+                screen.blit(text, textRect)
             else:
                 self.shield = False 
                 self.update_to_default(SHIELD_TYPE) 
 
     def update_to_default(self, current_type):
-        if self.type == current_type:
+        if(self.type == current_type):
             self.type = DEFAULT_TYPE
+            
+    def draw(self, screen):
+        screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
+        
+    def check_lives(self): #metodos preguntando si tiene vidas
+        if self.has_lives:
+            transition_time = round((self.lives_transition_time - pygame.time.get_ticks()) / 1000)
+            if transition_time < 0:
+                self.has_lives = False
